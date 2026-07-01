@@ -71,3 +71,19 @@ X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2,random_state=42
 scaler=StandardScaler()
 X_train=scaler.fit_transform(X_train)
 y_train=scaler.fit_transform(y_train)
+
+#applying linear regression
+model=LinearRegression()
+model.fit(X_train,y_train)
+
+#prediction output
+y_predicted=model.predict(X_test)
+
+#comparing actual vs predicted output
+comparison_df=pd.DataFrame(
+    {
+        "Actual price":y_test,
+        "Predicted price":y_predicted
+    }
+)
+print(comparison_df.head())
