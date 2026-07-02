@@ -7,7 +7,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error,r2_score
+from sklearn.metrics import mean_squared_error,mean_absolute_error,r2_score
 
 #loading the dataset
 df=pd.read_csv("data.csv")
@@ -43,6 +43,9 @@ print(df.describe(include="object"))
 print("Number of missing values:\n")
 print(df.isnull().sum())
 
+print("Value counts of countries:\n")
+print(df["country"].value_counts())
+
 #Data Cleaning
 
 #removing duplicate rows
@@ -50,16 +53,29 @@ df=df.drop_duplicates()
 
 #removing missing values
 df=df.dropna()
+df = df[df["price"] > 0]
 
 #Data Preprocessing
+
+#removing date column
+df["date"] = pd.to_datetime(df["date"])
+
+df["year"] = df["date"].dt.year
+df["month"] = df["date"].dt.month
+df["day"] = df["date"].dt.day
+
+df.drop("date", axis=1, inplace=True)
+df.drop("street", axis=1, inplace=True)
+df.drop("country", axis=1, inplace=True)
+
 #seperating features and target
-X=df.drop(collumn="price",axis=1)
+X=df.drop(columns="price",axis=1)
 y=df["price"]
 
 #encoding categorical features for data preprocessing
 column_transformer=ColumnTransformer(
-    transformers=[("encoding",OneHotEncoder(),["street","city","statezip","country"])],
-    remaindr="passthrough"
+    transformers=[("encoding",OneHotEncoder(sparse_output=False),["city","statezip"])],
+    remainder="passthrough"
 )
 
 X=column_transformer.fit_transform(X)
@@ -70,7 +86,7 @@ X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2,random_state=42
 #feature scaling to normalize the range of independent variables
 scaler=StandardScaler()
 X_train=scaler.fit_transform(X_train)
-y_train=scaler.fit_transform(y_train)
+X_test=scaler.transform(X_test)
 
 #applying linear regression
 model=LinearRegression()
@@ -87,3 +103,14 @@ comparison_df=pd.DataFrame(
     }
 )
 print(comparison_df.head())
+
+#evaluating the model
+mae=mean_absolute_error(y_test,y_predicted)
+mse=mean_squared_error(y_test,y_predicted)
+rmse=mse**0.5
+r2=r2_score(y_test,y_predicted)
+
+print(f"Mean aboslute error is {mae}")
+print(f"Mean squeared error is {mse}")
+print(f"Root mean squared error is {rmse}")
+print(f"R2 score is {r2}")
