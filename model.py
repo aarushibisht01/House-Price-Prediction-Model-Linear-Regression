@@ -132,3 +132,14 @@ sns.heatmap(df.corr(numeric_only=True),annot=True,cmap="coolwarm")
 plt.title("Correlation Heatmap")
 plt.savefig("correlation_heatmap.png", dpi=300, bbox_inches="tight")
 plt.show()
+
+#residual graph
+residuals = y_test - y_predicted
+plt.figure(figsize=(8,6))
+sns.scatterplot( x=y_predicted,y=residuals)
+plt.axhline(y=0, color="red", linestyle="--")
+plt.xlabel("Predicted House Price")
+plt.ylabel("Residuals")
+plt.title("Residual Plot")
+plt.savefig("residual_plot.png", dpi=300, bbox_inches="tight")
+plt.show()
