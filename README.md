@@ -70,7 +70,7 @@ The project includes the following visualizations:
 
 ## Actual Price vs Predicted Prices
 
-![Actual vs Predicted](actual_vs_predicted.png)
+![Actual vs Predicted](actual_vs_predicted_prices.png)
 
 ## Reidual Graph
 
