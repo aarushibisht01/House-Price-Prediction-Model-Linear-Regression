@@ -114,3 +114,21 @@ print(f"Mean aboslute error is {mae}")
 print(f"Mean squeared error is {mse}")
 print(f"Root mean squared error is {rmse}")
 print(f"R2 score is {r2}")
+
+#graphs
+
+#scatterplot
+plt.figure(figsize=(8,6))
+plt.scatter(y_test, y_predicted, alpha=0.6,marker='o')
+plt.xlabel("Actual Price")
+plt.ylabel("Predicted Price")
+plt.title("Actual vs Predicted House Prices")
+plt.savefig("actual_vs_pridicted_prices.png", dpi=300, bbox_inches="tight")
+plt.show()
+
+#correlation heatmap
+plt.figure(figsize=(12,8))
+sns.heatmap(df.corr(numeric_only=True),annot=True,cmap="coolwarm")
+plt.title("Correlation Heatmap")
+plt.savefig("correlation_heatmap.png", dpi=300, bbox_inches="tight")
+plt.show()
