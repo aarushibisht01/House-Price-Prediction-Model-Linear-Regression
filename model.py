@@ -123,7 +123,7 @@ plt.scatter(y_test, y_predicted, alpha=0.6,marker='o')
 plt.xlabel("Actual Price")
 plt.ylabel("Predicted Price")
 plt.title("Actual vs Predicted House Prices")
-plt.savefig("actual_vs_pridicted_prices.png", dpi=300, bbox_inches="tight")
+plt.savefig("actual_vs_predicted_prices.png", dpi=300, bbox_inches="tight")
 plt.show()
 
 #correlation heatmap
